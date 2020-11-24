@@ -1,6 +1,6 @@
 {
-  "name": "api-local-proxy",
-  "version": "0.0.0",
+  "name": "apinterstellar",
+  "version": "0.0.1",
   "main": "src/index.ts",
   "bin": "index.js",
   "license": "MIT",
