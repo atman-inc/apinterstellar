@@ -3,7 +3,7 @@
 const path = require('path')
 const commander = require('commander')
 const package = require('./package.json')
-require('ts-node').register()
+const serve = require('./src/index')
 
 const pm = commander.version(package.version)
 
@@ -14,7 +14,7 @@ pm.command('start')
   .option('-f, --fixture_dir <fixture_dir>', 'fixture dump dir', './fixtures')
   .action((cmd) => {
     const fd = path.resolve(cmd.fixture_dir)
-    require('./src/index.ts').default(
+    serve(
         cmd.host,
         parseInt(cmd.port),
         cmd.target,

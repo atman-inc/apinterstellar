@@ -1,7 +1,7 @@
-import * as express from 'express'
-import * as cors from 'cors'
-import * as proxy from 'express-http-proxy'
-import { Proxy } from './proxy'
+const express = require('express')
+const cors = require('cors')
+const proxy = require('express-http-proxy')
+const Proxy = require('./proxy')
 
 const app = express()
 
@@ -9,11 +9,11 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({ origin: true, credentials: true }))
 
-export default function serve(
-    host: string,
-    port: number,
-    targetHost: string,
-    fixturesDir: string
+module.exports = function serve(
+    host,
+    port,
+    targetHost,
+    fixturesDir
 ) {
   const apiProxy = proxy(targetHost, {
     userResDecorator: (proxyRes, proxyResData, userReq, userRes) => {

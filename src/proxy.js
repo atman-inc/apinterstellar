@@ -1,7 +1,6 @@
-import * as fs from 'fs'
-import * as path from 'path'
-import * as express from 'express'
-import * as crypto from 'crypto'
+const fs = require('fs')
+const path = require('path')
+const crypto = require('crypto')
 
 const getHash = (value) => {
   const md5 = crypto.createHash('md5')
@@ -9,33 +8,30 @@ const getHash = (value) => {
   return md5.digest('hex')
 }
 
-type Fixture = {
-  path: string
-  status: number
-  body: any
-  originalHash: string
-}
-
-export class Proxy {
+class Proxy {
   constructor(
-    private fixtureDir: string,
-    private proxyRes: express.Response,
-    private proxyResData: any,
-    private userReq: express.Request
+    fixtureDir,
+    proxyRes,
+    proxyResData,
+    userReq
   ) {
+    this.fixtureDir = fixtureDir
+    this.proxyRes = proxyRes
+    this.proxyResData = proxyResData
+    this.userReq = userReq
   }
 
-  private get fixturePath() {
+  get fixturePath() {
     const method = this.userReq.method
     const url = this.userReq.url.replace(/\//g, '_')
     return path.join(this.fixtureDir, `${method}${url}.json`)
   }
 
-  public get originalResponse() {
+  get originalResponse() {
     return this.proxyResData.toString()
   }
 
-  public readFixture(): Fixture {
+  readFixture() {
     const data = fs.readFileSync(this.fixturePath, 'utf8')
     const fixture = JSON.parse(data)
     const originalHash = getHash(this.originalResponse)
@@ -52,7 +48,7 @@ export class Proxy {
     }
   }
 
-  public createFixture() {
+  createFixture() {
     fs.writeFileSync(
       this.fixturePath,
       JSON.stringify(
@@ -68,3 +64,5 @@ export class Proxy {
     console.log(`store fixture to ${this.fixturePath}`)
   }
 }
+
+module.exports = Proxy
