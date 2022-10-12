@@ -1,0 +1,16 @@
+{
+  "name": "APInterstellarExample",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@stoplight/prism-cli": "^4.10.5",
+    "apinterstellar": "https://github.com/atman-inc/apinterstellar",
+    "npm-run-all": "^4.1.5"
+  },
+  "scripts": {
+    "run-local": "run-p run-local:*",
+    "run-local:prism": "prism mock --port 8002 --errors ./openapi/petstore.yaml",
+    "run-local:proxy": "apinterstellar start --port 8001 --target localhost:8002 --fixture_dir ./fixtures"
+  }
+}
