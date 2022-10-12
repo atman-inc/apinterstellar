@@ -16,6 +16,7 @@ module.exports = function serve(
     fixturesDir
 ) {
   const apiProxy = proxy(targetHost, {
+    parseReqBody: false,
     userResDecorator: (proxyRes, proxyResData, userReq, userRes) => {
       const logic = new Proxy(fixturesDir, proxyRes, proxyResData, userReq)
 
