@@ -49,13 +49,19 @@ class Proxy {
   }
 
   createFixture() {
+    let body = ''
+    try {
+      body = JSON.parse(this.originalResponse)
+    } catch(e) {
+      // NOP
+    }
     fs.writeFileSync(
       this.fixturePath,
       JSON.stringify(
         {
           status: this.proxyRes.statusCode,
-          body: JSON.parse(this.originalResponse),
-          original_hash: getHash(this.originalResponse)
+          body: body,
+          original_hash: getHash(body)
         },
         null,
         4
