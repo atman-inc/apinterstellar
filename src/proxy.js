@@ -61,7 +61,7 @@ class Proxy {
         {
           status: this.proxyRes.statusCode,
           body: body,
-          original_hash: getHash(body)
+          original_hash: getHash(this.originalResponse)
         },
         null,
         4
